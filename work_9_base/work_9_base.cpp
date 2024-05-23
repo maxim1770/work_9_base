@@ -1,44 +1,55 @@
 ﻿#include <iostream>
-#include <array>
+#include <cmath>
 
-const int ROWS = 3;
-const int COLS = 3;
+const int n = 10; // Размер массива Q
 
-bool searchInMatrix(int matrix[ROWS][COLS], int target) {
-    int row = 0;
-    int col = COLS - 1;
+double calculateQ(int t, int i) {
+    double q;
+    double sinVal = sin((t * t + 1) / n);
 
-    while (row < ROWS && col >= 0) {
-        if (matrix[row][col] == target) {
-            return true;
-        }
-        else if (matrix[row][col] > target) {
-            col--;
-        }
-        else {
-            row++;
-        }
+    if (sinVal > 0) {
+        q = sinVal;
+    }
+    else {
+        q = cos(i + 1.0 / n);
     }
 
-    return false;
+    return q;
 }
 
 int main() {
     setlocale(LC_ALL, "Russian");
-    int matrix[ROWS][COLS] = { {1, 3, 5}, {7, 9, 11}, {13, 15, 17} };
-    int target = 9;
+    double Q[n];
+    int t = 1; // Начальное значение t
 
-    if (searchInMatrix(matrix, target)) {
-        std::cout << "Значение найдено в матрице." << std::endl;
+    // Вычисление элементов массива Q
+    for (int i = 0; i < n; i++) {
+        Q[i] = calculateQ(t, i + 1);
     }
-    else {
-        std::cout << "Значение не найдено в матрице." << std::endl;
+
+    // Нахождение максимального и минимального элементов в массиве Q
+    double x = Q[0], y = Q[0];
+    for (int i = 1; i < n; i++) {
+        if (Q[i] > x) {
+            x = Q[i];
+        }
+        if (Q[i] < y) {
+            y = Q[i];
+        }
     }
+
+    // Вычисление функции R(x, y)
+    double result = sin(x) + (3 * x * y + 5 * y * y) * exp(-(x + y));
+
+    // Вывод результата в консоль
+    std::cout << "Результат функции R(x, y) при x = max(Q) и y = min(Q): " << result << std::endl;
 
     return 0;
 }
 
+
 /*
+
 +---------------------+
 | Начало программы    |
 +---------------------+
@@ -46,48 +57,43 @@ int main() {
           V
 +---------------------+
 | Инициализация       |
-| переменных          |
+| переменных и массива Q|
 +---------------------+
           |
           V
 +---------------------+
-| Установка начальных  |
-| значений row и col   |
+| Вычисление элементов |
+| массива Q по формуле  |
 +---------------------+
           |
           V
 +---------------------+
-| Пока row < ROWS и    |
-| col >= 0             |
+| Нахождение максимального|
+| и минимального элементов|
+| в массиве Q           |
 +---------------------+
           |
           V
 +---------------------+
-| Если matrix[row][col]|
-| равно target,       |
-| вернуть true        |
+| Подстановка x и y в   |
+| функцию R(x, y)       |
 +---------------------+
           |
           V
 +---------------------+
-| Если matrix[row][col]|
-| больше target,      |
-| уменьшить col       |
+| Вычисление R(x, y)   |
 +---------------------+
           |
           V
 +---------------------+
-| Иначе                |
-| увеличить row        |
-+---------------------+
-          |
-          V
-+---------------------+
-| Вернуть false       |
+| Вывод результата в    |
+| консоль               |
 +---------------------+
           |
           V
 +---------------------+
 | Конец программы      |
 +---------------------+
+
+
 */
