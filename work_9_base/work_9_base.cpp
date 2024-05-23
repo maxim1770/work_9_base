@@ -1,42 +1,34 @@
 ﻿#include <iostream>
-#include <array>
+#include <algorithm>
 
-const int ROWS = 3;
-const int COLS = 3;
+void findMedian(int nums[], int size) {
+    // Сортировка вектора
+    std::sort(nums, nums + size);
 
-bool searchInMatrix(int matrix[ROWS][COLS], int target) {
-    int row = 0;
-    int col = COLS - 1;
-
-    while (row < ROWS && col >= 0) {
-        if (matrix[row][col] == target) {
-            return true;
-        }
-        else if (matrix[row][col] > target) {
-            col--;
-        }
-        else {
-            row++;
-        }
+    // Нахождение медианы
+    double median;
+    if (size % 2 == 0) {
+        median = (nums[size / 2 - 1] + nums[size / 2]) / 2.0;
+    }
+    else {
+        median = nums[size / 2];
     }
 
-    return false;
+    // Вывод медианы в консоль
+    std::cout << "Медиана: " << median << std::endl;
 }
 
 int main() {
     setlocale(LC_ALL, "Russian");
-    int matrix[ROWS][COLS] = { {1, 3, 5}, {7, 9, 11}, {13, 15, 17} };
-    int target = 9;
+    int nums[] = { 7, 2, 18, 15, 11};
+    int size = sizeof(nums) / sizeof(nums[0]);
 
-    if (searchInMatrix(matrix, target)) {
-        std::cout << "Значение найдено в матрице." << std::endl;
-    }
-    else {
-        std::cout << "Значение не найдено в матрице." << std::endl;
-    }
+    // Нахождение медианы в векторе
+    findMedian(nums, size);
 
     return 0;
 }
+
 
 /*
 +---------------------+
@@ -45,49 +37,27 @@ int main() {
           |
           V
 +---------------------+
-| Инициализация       |
-| переменных          |
+| Ввод вектора чисел  |
 +---------------------+
           |
           V
 +---------------------+
-| Установка начальных  |
-| значений row и col   |
+| Сортировка вектора   |
 +---------------------+
           |
           V
 +---------------------+
-| Пока row < ROWS и    |
-| col >= 0             |
+| Нахождение медианы   |
 +---------------------+
           |
           V
 +---------------------+
-| Если matrix[row][col]|
-| равно target,       |
-| вернуть true        |
-+---------------------+
-          |
-          V
-+---------------------+
-| Если matrix[row][col]|
-| больше target,      |
-| уменьшить col       |
-+---------------------+
-          |
-          V
-+---------------------+
-| Иначе                |
-| увеличить row        |
-+---------------------+
-          |
-          V
-+---------------------+
-| Вернуть false       |
+| Вывод медианы в консоль|
 +---------------------+
           |
           V
 +---------------------+
 | Конец программы      |
 +---------------------+
+
 */
