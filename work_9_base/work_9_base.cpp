@@ -1,42 +1,56 @@
 ﻿#include <iostream>
-#include <array>
 
-const int ROWS = 3;
-const int COLS = 3;
+const int N = 3; // Размерность матрицы
 
-bool searchInMatrix(int matrix[ROWS][COLS], int target) {
-    int row = 0;
-    int col = COLS - 1;
+int determinant(int minor[N - 1][N - 1]) {
+    return minor[0][0] * minor[1][1] - minor[0][1] * minor[1][0];
+}
 
-    while (row < ROWS && col >= 0) {
-        if (matrix[row][col] == target) {
-            return true;
-        }
-        else if (matrix[row][col] > target) {
-            col--;
-        }
-        else {
-            row++;
+void findMinor(int A[N][N], int i, int j) {
+    int minor[N - 1][N - 1];
+    int p = 0, q = 0;
+
+    for (int row = 0; row < N; row++) {
+        for (int col = 0; col < N; col++) {
+            if (row != i && col != j) {
+                minor[p][q++] = A[row][col];
+                if (q == N - 1) {
+                    q = 0;
+                    p++;
+                }
+            }
         }
     }
 
-    return false;
+    // Подсчет определителя минора
+    int det = determinant(minor);
+
+    // Вывод минора и определителя в консоль
+    std::cout << "Минор для элемента A[" << i << "][" << j << "]:" << std::endl;
+    for (int row = 0; row < N - 1; row++) {
+        for (int col = 0; col < N - 1; col++) {
+            std::cout << minor[row][col] << " ";
+        }
+        std::cout << std::endl;
+    }
+    std::cout << "Определитель: " << det << std::endl;
 }
 
 int main() {
     setlocale(LC_ALL, "Russian");
-    int matrix[ROWS][COLS] = { {1, 3, 5}, {7, 9, 11}, {13, 15, 17} };
-    int target = 9;
+    int A[N][N] = { {1, 2, 3}, {4, 5, 6}, {7, 8, 9} };
 
-    if (searchInMatrix(matrix, target)) {
-        std::cout << "Значение найдено в матрице." << std::endl;
-    }
-    else {
-        std::cout << "Значение не найдено в матрице." << std::endl;
+    // Находим минор и определитель для каждого элемента матрицы
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            findMinor(A, i, j);
+        }
     }
 
     return 0;
 }
+
+
 
 /*
 +---------------------+
@@ -51,39 +65,31 @@ int main() {
           |
           V
 +---------------------+
-| Установка начальных  |
-| значений row и col   |
+| Ввод матрицы A[N][N]|
 +---------------------+
           |
           V
 +---------------------+
-| Пока row < ROWS и    |
-| col >= 0             |
+| Для каждого элемента|
+| матрицы A           |
 +---------------------+
           |
           V
 +---------------------+
-| Если matrix[row][col]|
-| равно target,       |
-| вернуть true        |
+| Создание минора      |
+| без строки i и столбца j|
 +---------------------+
           |
           V
 +---------------------+
-| Если matrix[row][col]|
-| больше target,      |
-| уменьшить col       |
+| Подсчет определителя |
+| минора               |
 +---------------------+
           |
           V
 +---------------------+
-| Иначе                |
-| увеличить row        |
-+---------------------+
-          |
-          V
-+---------------------+
-| Вернуть false       |
+| Вывод минора и      |
+| определителя в консоль|
 +---------------------+
           |
           V
