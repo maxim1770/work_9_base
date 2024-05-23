@@ -1,38 +1,48 @@
 ﻿#include <iostream>
-#include <array>
 
-const int ROWS = 3;
-const int COLS = 3;
+const int M = 3; // Количество строк
+const int N = 3; // Количество столбцов
 
-bool searchInMatrix(int matrix[ROWS][COLS], int target) {
-    int row = 0;
-    int col = COLS - 1;
-
-    while (row < ROWS && col >= 0) {
-        if (matrix[row][col] == target) {
-            return true;
+void zeroRowAndColumn(int matrix[M][N], int t, int p) {
+    // Проверка наличия элемента равного нулю в ячейке (t, p)
+    if (matrix[t][p] == 0) {
+        // Обнуление столбца p
+        for (int i = 0; i < M; i++) {
+            matrix[i][p] = 0;
         }
-        else if (matrix[row][col] > target) {
-            col--;
-        }
-        else {
-            row++;
+
+        // Обнуление строки t
+        for (int j = 0; j < N; j++) {
+            matrix[t][j] = 0;
         }
     }
-
-    return false;
 }
 
 int main() {
     setlocale(LC_ALL, "Russian");
-    int matrix[ROWS][COLS] = { {1, 3, 5}, {7, 9, 11}, {13, 15, 17} };
-    int target = 9;
+    int matrix[M][N] = { {1, 2, 3}, {4, 0, 6}, {7, 8, 9} };
+    int t = 1; // Строка t
+    int p = 1; // Столбец p
 
-    if (searchInMatrix(matrix, target)) {
-        std::cout << "Значение найдено в матрице." << std::endl;
+    std::cout << "До:" << std::endl;
+    for (int i = 0; i < M; i++) {
+        for (int j = 0; j < N; j++) {
+            std::cout << matrix[i][j] << " ";
+        }
+        std::cout << std::endl;
     }
-    else {
-        std::cout << "Значение не найдено в матрице." << std::endl;
+
+
+    // Обнуление столбца p и строки t, если элемент равен нулю
+    zeroRowAndColumn(matrix, t, p);
+
+    std::cout << "После:" << std::endl;
+    // Вывод обновленной матрицы в консоль
+    for (int i = 0; i < M; i++) {
+        for (int j = 0; j < N; j++) {
+            std::cout << matrix[i][j] << " ";
+        }
+        std::cout << std::endl;
     }
 
     return 0;
