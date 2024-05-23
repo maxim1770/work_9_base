@@ -28,11 +28,24 @@ int main() {
     int matrix[ROWS][COLS] = { {1, 3, 5}, {7, 9, 11}, {13, 15, 17} };
     int target = 9;
 
+
+    std::cout << "Значение:" << std::endl;
+    std::cout << target << std::endl;
+
+    std::cout << "Матрица:" << std::endl;
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            std::cout << matrix[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+
+
     if (searchInMatrix(matrix, target)) {
-        std::cout << "Значение найдено в матрице." << std::endl;
+        std::cout << "Значение найдено в матрице" << std::endl;
     }
     else {
-        std::cout << "Значение не найдено в матрице." << std::endl;
+        std::cout << "Значение не найдено в матрице" << std::endl;
     }
 
     return 0;
