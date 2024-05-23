@@ -1,42 +1,33 @@
 ﻿#include <iostream>
-#include <array>
+#include <cmath>
 
-const int ROWS = 3;
-const int COLS = 3;
+void calculateCoordinates(double D, double a, double i) {
+    // Проверка допустимых значений
+    if (D >= 0 && a >= 0 && a <= 90 && i >= 0 && i <= 360) {
+        // Вычисление координат X и Y
+        double X = D * cos(a) * cos(i);
+        double Y = D * cos(a) * sin(i);
 
-bool searchInMatrix(int matrix[ROWS][COLS], int target) {
-    int row = 0;
-    int col = COLS - 1;
-
-    while (row < ROWS && col >= 0) {
-        if (matrix[row][col] == target) {
-            return true;
-        }
-        else if (matrix[row][col] > target) {
-            col--;
-        }
-        else {
-            row++;
-        }
+        // Вывод координат в консоль
+        std::cout << "Координаты цели: X = " << X << ", Y = " << Y << std::endl;
     }
-
-    return false;
+    else {
+        std::cout << "Ошибка: Недопустимые значения D, a или i." << std::endl;
+    }
 }
 
 int main() {
     setlocale(LC_ALL, "Russian");
-    int matrix[ROWS][COLS] = { {1, 3, 5}, {7, 9, 11}, {13, 15, 17} };
-    int target = 9;
+    double D = 100.0; // Пример значения D
+    double a = 45.0;  // Пример значения a (угол места)
+    double i = 30.0;  // Пример значения i (азимут)
 
-    if (searchInMatrix(matrix, target)) {
-        std::cout << "Значение найдено в матрице." << std::endl;
-    }
-    else {
-        std::cout << "Значение не найдено в матрице." << std::endl;
-    }
+    // Вычисление координат для заданных значений
+    calculateCoordinates(D, a, i);
 
     return 0;
 }
+
 
 /*
 +---------------------+
@@ -45,49 +36,31 @@ int main() {
           |
           V
 +---------------------+
-| Инициализация       |
-| переменных          |
+| Ввод значений D, a, и |
+| i (для азимута)      |
 +---------------------+
           |
           V
 +---------------------+
-| Установка начальных  |
-| значений row и col   |
+| Проверка допустимых  |
+| значений D, a, и i   |
 +---------------------+
           |
           V
 +---------------------+
-| Пока row < ROWS и    |
-| col >= 0             |
+| Вычисление координат |
+| X и Y цели           |
 +---------------------+
           |
           V
 +---------------------+
-| Если matrix[row][col]|
-| равно target,       |
-| вернуть true        |
-+---------------------+
-          |
-          V
-+---------------------+
-| Если matrix[row][col]|
-| больше target,      |
-| уменьшить col       |
-+---------------------+
-          |
-          V
-+---------------------+
-| Иначе                |
-| увеличить row        |
-+---------------------+
-          |
-          V
-+---------------------+
-| Вернуть false       |
+| Вывод координат в    |
+| консоль              |
 +---------------------+
           |
           V
 +---------------------+
 | Конец программы      |
 +---------------------+
+
 */
